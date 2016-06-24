@@ -16,7 +16,7 @@ if (($library = e107::library('load', 'cdn.bootstrap')) && !empty($library['load
 
 if (($library = e107::library('load', 'cdn.fontawesome')) && !empty($library['loaded']))
 {
-	define("FONTAWESOME", 3);
+	define("FONTAWESOME", 4);
 }
 
 define('VIEWPORT', "width=device-width, initial-scale=1.0");
@@ -86,6 +86,7 @@ $LAYOUT['_header_'] = '
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             {NAVIGATION=main}
+            {NAVIGATION_USER}
         </div>
         <!-- /.navbar-collapse -->
     </div>
@@ -98,13 +99,12 @@ $LAYOUT['_footer_'] = '
 ';
 
 $LAYOUT['home'] = '
-{---}
 {SETSTYLE=default}
 <!-- Header. -->
 <header>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-xs-12">
                 <div class="intro-text">
                     <span class="name">eChat Website</span>
                     <hr class="star-light">
@@ -114,5 +114,15 @@ $LAYOUT['home'] = '
         </div>
     </div>
 </header>
-{---}
+
+<div class="main-container">
+    <div class="container">
+	    {ALERTS}
+		<div class="row">
+   			<div class="col-xs-12">
+				{---}
+ 			</div>
+        </div>
+    </div>
+</div>
 ';

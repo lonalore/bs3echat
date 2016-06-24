@@ -14,9 +14,6 @@
     <screenshots>
         <image>preview.png</image>
     </screenshots>
-    <stylesheets>
-        <css file="css/style.css" name="Default"/>
-    </stylesheets>
     <layouts>
         <layout name='home' title='Home' default='true'>
             <custompages>FRONTPAGE</custompages>
