@@ -23,17 +23,25 @@ class theme_shortcodes extends e_shortcode
 		parent::__construct();
 	}
 
+	// FIXME this is not a nice solution...
 	function sc_navigation_user()
 	{
 		$tp = e107::getParser();
 
 		include_lan(e_PLUGIN . 'login_menu/languages/' . e_LANGUAGE . '.php');
-		e107_require(e_PLUGIN . 'login_menu/login_menu_shortcodes.php');
+		require(e_PLUGIN . 'login_menu/login_menu_shortcodes.php');
 
 		$userReg = defset('USER_REGISTRATION');
 
 		if(!USERID) // Logged Out.
 		{
+			$socialActive = e107::pref('core', 'social_login_active');
+
+			if(empty($userReg)) // value of 1 or 2 = login okay.
+			{
+				return '';
+			}
+
 			$text = '<ul class="nav navbar-nav navbar-right">';
 
 			if($userReg == 1)
@@ -41,43 +49,36 @@ class theme_shortcodes extends e_shortcode
 				$text .= '<li><a href="' . e_SIGNUP . '">' . LAN_LOGINMENU_3 . '</a></li>'; // Signup
 			}
 
-			$socialActive = e107::pref('core', 'social_login_active');
+			$text .= '<li class="divider-vertical"></li>';
+			$text .= '<li class="dropdown">';
+			$text .= '<a class="dropdown-toggle" href="#" data-toggle="dropdown">' . LAN_LOGINMENU_51 . ' <strong class="caret"></strong></a>';
+			$text .= '<div class="dropdown-menu col-sm-12" style="min-width:250px; padding: 15px; padding-bottom: 0;">';
 
-			if(!empty($userReg) || !empty($socialActive)) // e107 or social login is active.
+			if(!empty($socialActive))
 			{
-				$text .= '<li class="divider-vertical"></li>';
-				$text .= '<li class="dropdown">';
-				$text .= '<a class="dropdown-toggle" href="#" data-toggle="dropdown">' . LAN_LOGINMENU_51 . ' <strong class="caret"></strong></a>';
-				$text .= '<div class="dropdown-menu col-sm-12" style="min-width:250px; padding: 15px; padding-bottom: 0px;">';
 				$text .= '{SOCIAL_LOGIN: size=2x&label=1}';
 			}
-			else
-			{
-				return '';
-			}
 
-			if(!empty($userReg)) // value of 1 or 2 = login okay.
-			{
-				$text .= '<form method="post" onsubmit="hashLoginPassword(this);return true" action="' . e_REQUEST_HTTP . '" accept-charset="UTF-8">';
-				$text .= '<p>{LM_USERNAME_INPUT}</p>';
-				$text .= '<p>{LM_PASSWORD_INPUT}</p>';
-				$text .= '<div class="form-group"></div>';
-				$text .= '{LM_IMAGECODE_NUMBER}';
-				$text .= '{LM_IMAGECODE_BOX}';
-				$text .= '<div class="checkbox">';
-				$text .= '<label class="string optional" for="autologin"><input style="margin-right: 10px;" type="checkbox" name="autologin" id="autologin" value="1">' . LAN_LOGINMENU_6 . '</label>';
-				$text .= '</div>';
-				$text .= '<input class="btn btn-primary btn-block" type="submit" name="userlogin" id="userlogin" value="' . LAN_LOGINMENU_51 . '">';
-				$text .= '<a href="{LM_FPW_LINK=href}" class="btn btn-default btn-sm btn-block">' . LAN_LOGINMENU_4 . '</a>';
-				$text .= '<a href="{LM_RESEND_LINK=href}" class="btn btn-default btn-sm btn-block">' . LAN_LOGINMENU_40 . '</a>';
-				$text .= '</form>';
-				$text .= '</div>';
-				$text .= '</li>';
-			}
-
+			$text .= '<form method="post" onsubmit="hashLoginPassword(this);return true" action="' . e_REQUEST_HTTP . '" accept-charset="UTF-8">';
+			$text .= '<div class="form-group">{LM_USERNAME_INPUT}</div>';
+			$text .= '<div class="form-group">{LM_PASSWORD_INPUT}</div>';
+			$text .= '{LM_IMAGECODE_NUMBER}';
+			$text .= '{LM_IMAGECODE_BOX}';
+			$text .= '<div class="checkbox">';
+			$text .= '<label class="string optional" for="autologin"><input style="margin-right: 10px;" type="checkbox" name="autologin" id="autologin" value="1">' . LAN_LOGINMENU_6 . '</label>';
+			$text .= '</div>';
+			$text .= '<div class="form-group">';
+			$text .= '<input class="btn btn-primary btn-block" type="submit" name="userlogin" id="userlogin" value="' . LAN_LOGINMENU_51 . '">';
+			$text .= '<a href="{LM_FPW_LINK=href}" class="btn btn-default btn-sm btn-block">' . LAN_LOGINMENU_4 . '</a>';
+			$text .= '<a href="{LM_RESEND_LINK=href}" class="btn btn-default btn-sm btn-block">' . LAN_LOGINMENU_40 . '</a>';
+			$text .= '</div>';
+			$text .= '</form>';
+			$text .= '</div>';
+			$text .= '</li>';
 			$text .= "</ul>";
 
-			return $tp->parseTemplate($text, true);
+			$login_menu_shortcodes = vartrue($login_menu_shortcodes, '');
+			return $tp->parseTemplate($text, true, $login_menu_shortcodes);
 		}
 
 		$text = '<ul class="nav navbar-nav navbar-right">';
@@ -102,7 +103,8 @@ class theme_shortcodes extends e_shortcode
 		$text .= '</li>';
 		$text .= '</ul>';
 
-		return $tp->parseTemplate($text, true);
+		$login_menu_shortcodes = vartrue($login_menu_shortcodes, '');
+		return $tp->parseTemplate($text, true, $login_menu_shortcodes);
 	}
 
 }

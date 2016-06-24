@@ -4,17 +4,17 @@
  * BS3 eChat theme file.
  */
 
-if (!defined('e107_INIT'))
+if(!defined('e107_INIT'))
 {
 	exit;
 }
 
-if (($library = e107::library('load', 'cdn.bootstrap')) && !empty($library['loaded']))
+if(($library = e107::library('load', 'cdn.bootstrap')) && !empty($library['loaded']))
 {
 	define("BOOTSTRAP", 3);
 }
 
-if (($library = e107::library('load', 'cdn.fontawesome')) && !empty($library['loaded']))
+if(($library = e107::library('load', 'cdn.fontawesome')) && !empty($library['loaded']))
 {
 	define("FONTAWESOME", 4);
 }
@@ -32,7 +32,7 @@ function tablestyle($caption, $text, $id = '', $info = array())
 	$style = $info['setStyle'];
 	$html = '';
 
-	switch ($style)
+	switch($style)
 	{
 		case 'no-caption':
 			$html .= $text;
@@ -46,10 +46,11 @@ function tablestyle($caption, $text, $id = '', $info = array())
 
 		case 'default':
 		default:
-			if (!empty($caption))
+			if(!empty($caption))
 			{
 				$html .= '<h2 class="caption">' . $caption . '</h2>';
 			}
+			$html .= $text;
 			break;
 	}
 
