@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e107Theme name="BS3 eChat" version="1.0" date="2016-06-24" compatibility="2.0">
-    <author name="lonalore" email="juhasz.sandor@lonalore.hu" url="http://lonalore.hu"/>
+    <author name="lonalore" url="https://github.com/lonalore/bs3echat"/>
     <summary>Bootstrap 3 theme</summary>
     <description>Bootstrap 3 based theme for the website used for developing eChat plugin.</description>
     <category>generic</category>
